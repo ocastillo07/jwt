@@ -14,7 +14,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '1cd5daa0fddb267f197c77b072e11e33c4e11ff63a73bccf113938633d30d2910320e97856bf8da6d70799871f18e8bf87c7a209b412486e0041e7174e141caf'
+  # config.secret_key = 'f4f1bd7a69f5851d926598cab3a047a56b3c868de43d0e946b886b29dfa910ec6656f14a12c292177be7359df453df5480e543e742009805fd84e0c9f3634ebe'
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -126,7 +126,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 12
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = '04c8a7c64703251f132ff31cc09666a51c8c127732cc4c9a5ab3a3d05f86627b3852691069feac3c989e1273c27ca9f8b7e53a4b511e19953c5fae7f596fbdf2'
+  # config.pepper = '1484b31a4835efa9d4e2cb421f7a13f546a2dc4f5231e1df142d5fc03a0523ce0db34658352c00656149ee0c8debbcfa16782f38bfd7d9cb01cdb959895e37fa'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -278,10 +278,8 @@ Devise.setup do |config|
   # change the failure app, you can configure them inside the config.warden block.
   #
   # config.warden do |manager|
-  #   # manager.intercept_401 = false
-  #   # manager.default_strategies(scope: :user).unshift :some_external_strategy
-  #   manager.strategies.add(:jwt, Devise::Strategies::JsonWebToken)
-  #   manager.default_strategies(scope: :user).unshift :jwt
+  #   manager.intercept_401 = false
+  #   manager.default_strategies(scope: :user).unshift :some_external_strategy
   # end
 
   # ==> Mountable engine configurations
@@ -310,16 +308,18 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
-
   config.jwt do |jwt|
     jwt.secret = Rails.application.credentials.jwt_secret
     jwt.dispatch_requests = [
-      ['POST', %r{^/login$}]
+      ['POST', %r{^/login$}],
+      ['GET', %r{^/signup$}]
     ]
     jwt.revocation_requests = [
       ['DELETE', %r{^/logout$}]
     ]
-    jwt.expiration_time = 1.day.to_i
+    jwt.expiration_time = 3600
+    jwt.request_formats = {
+      user: [:json]
+    }
   end
 end
-

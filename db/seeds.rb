@@ -5,3 +5,7 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+(1..20).each do
+  posts = Post.create(title: Faker::DcComics.villain, body: Faker::Lorem.paragraph, published: Faker::Boolean.boolean)
+end
