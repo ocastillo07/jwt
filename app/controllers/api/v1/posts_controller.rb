@@ -1,12 +1,12 @@
 class Api::V1::PostsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_post, only: [:show, :update, :destroy]
-
+  
   # GET /posts
   def index
     @posts = Post.all
-
-    render json: @posts
+    options = { include: [:authors]}
+    render json: PostSerializer.new(@posts, options).serializable_hash
   end
 
   # GET /posts/1

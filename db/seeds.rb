@@ -6,6 +6,15 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-(1..20).each do
-  posts = Post.create(title: Faker::DcComics.villain, body: Faker::Lorem.paragraph, published: Faker::Boolean.boolean)
+#cleanup first
+Author.delete_all
+Post.delete_all
+
+#populating the tables
+(1..10).each do
+  post = Post.create(title: Faker::Book.title, body: Faker::Lorem.paragraph, published: Faker::Boolean.boolean)
+  post.authors.create(name: Faker::Book.author, email: Faker::Internet.email, score: Faker::Number.between(from: 1, to: 10) )
+  post.authors.create(name: Faker::Book.author, email: Faker::Internet.email, score: Faker::Number.between(from: 1, to: 10) )
+  post.authors.create(name: Faker::Book.author, email: Faker::Internet.email, score: Faker::Number.between(from: 1, to: 10) )
+  post.authors.create(name: Faker::Book.author, email: Faker::Internet.email, score: Faker::Number.between(from: 1, to: 10) )
 end
